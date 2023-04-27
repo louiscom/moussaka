@@ -1,0 +1,33 @@
+<h1>Album index</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Album</th>
+        <th>Sons</th>
+        <th>Artiste</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for album in albums %}
+        <tr>
+            <td>{{ album.name }}</td>
+            <td>{{ album.songs }}</td>
+            <td>{{ album.artist }}</td>
+            <td>
+                <a href="{{ path('app_album_show', {'id': album.id}) }}">Voir</a>
+                {%if is_granted('ROLE_ARTIST') %}
+                    <a href="{{ path('app_album_edit', {'id': album.id}) }}">Edit</a>
+                {%  endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{%if is_granted('ROLE_ARTIST') %}
+    <a class="bg-blue-300 h-5" href="{{ path('app_album_new') }}">Créer nouveau</a>
+{%  endif %}

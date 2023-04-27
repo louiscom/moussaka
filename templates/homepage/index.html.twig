@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomepageController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Bienvenue sur moussaka</h1>
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+        {% else %}
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><a href="{{ path('app_login') }}">Se connecter</a></button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><a href="{{ path('app_register') }}">Créer un compte</a></button>
+    {% endif %}
+
+    <div class="flex flex-row">
+        <div class="basis-1/4">
+            <h2><b>Derniers sons ajoutés</b></h2>
+        </div>
+        <div class="basis-3/4">
+            {{ render(controller('App\\Artists\\Infrastructure\\Symfony\\Controller\\SongController::index')) }}
+            <br/>
+        </div>
+    </div>
+    <br/>
+    <div class="flex flex-row">
+        <div class="basis-1/4">
+            <h2><b>Mes playlists</b></h2>
+        </div>
+        <div class="basis-3/4">
+            {{ render(controller('App\\Customers\\Infrastructure\\Symfony\\Controller\\PlaylistController::index')) }}
+            <br/>
+        </div>
+    </div>
+    <br/>
+    {%if is_granted('ROLE_ARTIST') %}
+        <div class="flex flex-row">
+            <div class="basis-1/4">
+                <h2>Albums</h2>
+            </div>
+            <div class="basis-3/4">
+                {{ render(controller('App\\Artists\\Infrastructure\\Symfony\\Controller\\AlbumController::index')) }}
+                <br/>
+            </div>
+        </div>
+
+    {% endif %}
+</div>
+{% endblock %}
